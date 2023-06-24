@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ShowCart from './ShowCart';
 import axios from 'axios';
-
+import { Link } from "react-router-dom";
 const ShoppingCartPage = () => {
     const [cartItems, setCartItems] = useState([]);
     const [products, setProducts] = useState([]);
@@ -42,13 +42,13 @@ const ShoppingCartPage = () => {
         const updatedCartItems = cartItems.filter(itemId => itemId !== id);
         sessionStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
         setCartItems(updatedCartItems);
-      };
+    };
 
 
 
     const fetchSessionData = () => {
         axios
-            .get('https://thaihoang-midterm-api.onrender.com/clothes')
+            .get('http://localhost:8000/api/get-product')
             .then(response => {
                 setProducts(response.data);
             })
@@ -65,6 +65,27 @@ const ShoppingCartPage = () => {
         }
     };
 
+    const checkOut = () => {
+        const cartItems = sessionStorage.getItem('cartItems');
+        const cartItemsArray = cartItems ? JSON.parse(cartItems) : [];
+        const string = cartItemsArray.join(',');
+        console.log(typeof (string));
+        console.log(string);
+        axios.post('http://localhost:8000/api/checkout', { data: string })
+            .then(response => {
+                alert(response.data.message);
+                sessionStorage.removeItem('cartItems');
+                sessionStorage.clear();
+                window.location.href = "/cart";
+            })
+            .catch(error => {
+                // Handle the error response
+                console.error(error); // or perform any other action
+            });
+    };
+
+
+
     return (
         <>
             <div className="breacrumb-section">
@@ -73,7 +94,7 @@ const ShoppingCartPage = () => {
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="breadcrumb-text product-more">
-                                    <a href="./home.html"><i class="fa fa-home"></i> Home</a>
+                                    <Link to="/"><i class="fa fa-home"></i> Home</Link>
                                     <a href="./shop.html">Shop</a>
                                     <span>Shopping Cart</span>
                                 </div>
@@ -111,7 +132,7 @@ const ShoppingCartPage = () => {
                                                     <ShowCart
                                                         key={index}
                                                         image={product.image}
-                                                        type={product.type}
+                                                        category={product.category.category_name}
                                                         price={product.price}
                                                         quantity={count}
                                                         title={product.title}
@@ -131,7 +152,7 @@ const ShoppingCartPage = () => {
                                             <li class="subtotal">Subtotal <span>${calculateTotalPrice().toFixed(2)}</span></li>
                                             <li class="cart-total">Total <span>${calculateTotalPrice().toFixed(2)}</span></li>
                                         </ul>
-                                        <a href="#" className="proceed-btn">PROCEED TO CHECK OUT</a>
+                                        <button className="proceed-btn" onClick={() => checkOut()}>PROCEED TO CHECK OUT</button>
                                     </div>
                                 </div>
                             </div>
