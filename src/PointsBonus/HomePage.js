@@ -136,7 +136,7 @@ const HomePage = () => {
                                                     <h5>₫120.00</h5>
                                                 </div>
                                                 <div className="select-button">
-                                                    <a href="http://localhost:3000/shoppingcart-detail" className="primary-btn view-card">VIEW CARD</a>
+                                                    <a href="https://shoping-cart-fe.vercel.app/shoppingcart-detail" className="primary-btn view-card">VIEW CARD</a>
                                                     <a href="#" className="primary-btn checkout-btn">CHECK OUT</a>
                                                 </div>
                                             </div>
