@@ -6,43 +6,43 @@ const HomePage = () => {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
     const [list, setList] = useState([]);
-  
+
     useEffect(() => {
-      fetchSessionData();
+        fetchSessionData();
     }, []);
-  
+
     useEffect(() => {
-      const storedItems = sessionStorage.getItem("cartItems");
-      const parsedItems = storedItems ? JSON.parse(storedItems) : [];
-      setList(parsedItems);
+        const storedItems = sessionStorage.getItem("cartItems");
+        const parsedItems = storedItems ? JSON.parse(storedItems) : [];
+        setList(parsedItems);
     }, []);
-  
+
 
 
     const fetchSessionData = () => {
-      axios
-        .get('https://thaihoang-midterm-api.onrender.com/clothes')
-        .then(response => {
-          setProducts(response.data);
-        })
-        .catch(error => {
-          setError(error.message);
-        });
+        axios
+            .get('https://thaihoang-midterm-api.onrender.com/clothes')
+            .then(response => {
+                setProducts(response.data);
+            })
+            .catch(error => {
+                setError(error.message);
+            });
     };
 
-  
+
     const addToCart = (productId) => {
-      const cartItems = sessionStorage.getItem('cartItems');
-      let items = [];
-  
-      if (cartItems) {
-        items = JSON.parse(cartItems);
-      }
-      items.push(productId);
-      sessionStorage.setItem('cartItems', JSON.stringify(items));
-      setList(items);
+        const cartItems = sessionStorage.getItem('cartItems');
+        let items = [];
+
+        if (cartItems) {
+            items = JSON.parse(cartItems);
+        }
+        items.push(productId);
+        sessionStorage.setItem('cartItems', JSON.stringify(items));
+        setList(items);
     };
-  
+
     const qty = list.length > 9 ? "9+" : list.length;
 
 
@@ -203,20 +203,18 @@ const HomePage = () => {
                             <div className="col-lg-12 order-1 order-lg-2">
                                 <div className="product-list">
                                     <div className="row">
-                                        <div class="col-lg-4 col-sm-6">
 
-
-                                            {products.map((product, index) => (
+                                        {products.map((product, index) => (
+                                            <div class="col-lg-4 col-sm-6">
                                                 <ShowProducts
                                                     id={product.id}
                                                     image={product.image} onSale={product.onSale}
                                                     type={product.type}
                                                     price={product.price}
                                                     title={product.title}
-                                                    method={() => addToCart(product.id)} />))}
-
-
-                                        </div>
+                                                    method={() => addToCart(product.id)} />
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
