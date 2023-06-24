@@ -131,7 +131,7 @@ const ShoppingCartPage = () => {
                                                     <ShowCart
                                                         key={index}
                                                         image={product.image}
-                                                        category={product.category.category_name}
+                                                        type={product.type}
                                                         price={product.price}
                                                         quantity={count}
                                                         title={product.title}
