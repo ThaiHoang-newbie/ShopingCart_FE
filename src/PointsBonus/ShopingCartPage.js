@@ -48,7 +48,7 @@ const ShoppingCartPage = () => {
 
     const fetchSessionData = () => {
         axios
-            .get('http://localhost:8000/api/get-product')
+            .get('https://thaihoang-midterm-api.onrender.com/clothes')
             .then(response => {
                 setProducts(response.data);
             })
@@ -76,11 +76,10 @@ const ShoppingCartPage = () => {
                 alert(response.data.message);
                 sessionStorage.removeItem('cartItems');
                 sessionStorage.clear();
-                window.location.href = "/cart";
+                window.location.href = "/shoppingcart-detail";
             })
             .catch(error => {
-                // Handle the error response
-                console.error(error); // or perform any other action
+                console.error(error);
             });
     };
 
